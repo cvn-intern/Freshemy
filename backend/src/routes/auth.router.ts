@@ -1,12 +1,12 @@
-import { Express, Request, Response } from "express";
-import validate from "../middlewares/validate";
-import { createUserSchema } from "../schema/user.schema";
-import { createUserHandler } from "../controllers/user.controller";
+import { Router } from "express";
+import controllers from "../controllers/index.controller";
 
-const routers = (app: Express) => {
-    app.get("/check", (req: Request, res: Response) => res.sendStatus(200));
+export const authRouter: Router = Router();
 
-    app.post("/api/users", validate(createUserSchema), createUserHandler);
-};
+authRouter.post("/register", controllers.authController.register);
 
-export default routers;
+authRouter.get("/refresh", controllers.authController.refreshToken);
+
+// authRouter.get("/me", isLogin, controllers.getMe);
+
+export default authRouter;

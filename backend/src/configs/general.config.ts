@@ -7,3 +7,6 @@ export const general = {
     PORT: parseInt(process.env.PORT || "5000"),
     DATABASE_URL: process.env.DATABASE_URL,
 };
+
+const secretKey = process.env.YOUR_SECRET_KEY || 'default-secret-key';
+
