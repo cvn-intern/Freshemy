@@ -8,5 +8,5 @@ export const general = {
     DATABASE_URL: process.env.DATABASE_URL,
 };
 
-const secretKey = process.env.YOUR_SECRET_KEY || 'default-secret-key';
+
 

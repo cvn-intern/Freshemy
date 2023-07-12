@@ -33,7 +33,7 @@ export const isLogin = async (req: RegisterRequest, res: Response, next: NextFun
                 return res.status(500).json({ message: 'Failed to register user' });
             }
 
-            const encodedToken = generateToken(registeredUser);
+            const encodedToken = generateToken(registeredUser.first_name, registeredUser.last_name, registeredUser.password, registeredUser.email);
             return res.status(200).json({ token: encodedToken });
         }
     } catch (error: any) {
@@ -67,7 +67,7 @@ async function registrationUser(userData: { email: string; password: string; fir
                 token: '', // Add default value or value from userData
             },
         });
-        
+
         return newUser;
     } catch (error) {
         console.error('Failed to register user:', error);
@@ -75,13 +75,13 @@ async function registrationUser(userData: { email: string; password: string; fir
     }
 }
 
-function generateToken(user: { id: number }): string {
-    // Generate and return the encoded token based on the user object
-    // Example:
-    const payload: MyJwtPayload = {
-        user_id: user.id,
-        // Add more payload properties if needed
-    };
-    const token = jwt.sign(payload, 'PrivateKey', { expiresIn: '1h' });
+function generateToken(first_name: string, last_name: string, password: string, email: string): string {
+    // Generate and return the encoded token based on the user data
+    const payload = { first_name, last_name, password, email };
+    const secretKey = 'b286e0f96f6759ec8fb9906b235f4c13dfb23c0505574fd6b82abad035f007fa5dac96ac9038beea3abb9bad20a40bd5a7e891e7502539c04dea853e79d10a9f';
+    const expiresIn = '1h'; // Set the expiration time for the token
+
+    const token = jwt.sign(payload, secretKey, { expiresIn });
+
     return token;
 }
