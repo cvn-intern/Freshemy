@@ -21,12 +21,22 @@ const generateToken = (userId: number): string => {
 
 const register = async (req: RegisterRequest): Promise<ResponseBase> => {
     try {
-        const { email, password, first_name, last_name } = req.body;
+        const { email, password, confirmPassword, first_name, last_name } = req.body;
+
+        // Validate the email field
+        if (!email) {
+            return new ResponseError(400, "Email is required", false);
+        }
 
         // Check if the email already exists in the database
         const existingUser = await db.user.findUnique({ where: { email } });
         if (existingUser) {
             return new ResponseError(400, "Email already exists", false);
+        }
+
+        // Validate the confirmPassword field
+        if (password !== confirmPassword) {
+            return new ResponseError(400, "Passwords do not match", false);
         }
 
         // Hash the password
@@ -97,8 +107,6 @@ const refreshToken = async (req: Request): Promise<ResponseBase> => {
         return new ResponseError(500, "Internal Server", false);
     }
 };
-
-
 
 const getMe = async (req: RegisterRequest): Promise<ResponseBase> => {
     try {

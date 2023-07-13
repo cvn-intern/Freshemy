@@ -47,7 +47,6 @@ export const { setUsers } = authSlice.actions;
 
 export default authSlice.reducer;
 
-
 // @ts-ignore
 export const login = (values: LoginType) => async (dispatch, getState) => {
     try {
@@ -70,43 +69,25 @@ export const login = (values: LoginType) => async (dispatch, getState) => {
     }
 };
 
-export const registerSuccess = createAction<UserType>('auth/registerSuccess');
-
-// export const register = (values: RegisterType) : AppThunk => async (dispatch: AppDispatch, getState: () => RootState) => {
-//     try {
-//         const { email, password, confirmPassword, firstName, lastName } = values;
-//         const response = await registerAPI(email, password, confirmPassword, firstName, lastName);
-
-//         if (response.status >= 200 && response.status <= 299) {
-//             // Handle successful registration if needed
-//         } else {
-//             console.log(response.data.message);
-//         }
-//     } catch (error: any) {
-//         console.log(error);
-//     }
-// };
-
+export const registerSuccess = createAction<UserType>("auth/registerSuccess");
 
 // @ts-ignore
+export const register =
+    (values: RegisterType): AppThunk =>
+    async (dispatch, getState) => {
+        try {
+            const { email, password, confirmPassword, firstName, lastName } = values;
+            const response = await registerAPI(email, password, confirmPassword, firstName, lastName);
 
-export const register = (values: RegisterType): AppThunk => async (dispatch, getState) => {
-    try {
-        const { email, password, confirmPassword, firstName, lastName } = values;
-        const response = await registerAPI(email, password, confirmPassword, firstName, lastName);
-
-        if (response.status >= 200 && response.status <= 299) {
-            // Handle successful registration if needed
-            setIsRegistered(true);
-        } else {
-            console.log(response.data.message);
+            if (response.status >= 200 && response.status <= 299) {
+                dispatch(registerSuccess(response.data.data));
+            } else {
+                console.log(response.data.message);
+            }
+        } catch (error: any) {
+            console.log(error);
         }
-    } catch (error: any) {
-        console.log(error);
-    }
-};
-
-
+    };
 
 export const getMe = (): AppThunk<void> => async (dispatch: AppDispatch, getState) => {
     try {
@@ -138,7 +119,6 @@ export const refreshToken = async () => {
     }
 };
 
-function setIsRegistered(arg0: boolean): any {
-    throw new Error("Function not implemented.");
-}
-
+// function setIsRegistered(arg0: boolean): any {
+//     throw new Error("Function not implemented.");
+// }

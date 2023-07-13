@@ -1,10 +1,10 @@
-import { Request, Response } from 'express';
-import { registrationSchema } from '../validations/auth';
-import { ValidationError } from 'joi';
-import { convertJoiErrorToString } from '../commons/index';
-import { RegisterRequest } from '../types/request';
-import services from '../services/index.service';
-import jwt from 'jsonwebtoken';
+import { Request, Response } from "express";
+import { registrationSchema } from "../validations/auth";
+import { ValidationError } from "joi";
+import { convertJoiErrorToString } from "../commons/index";
+import { RegisterRequest } from "../types/request";
+import services from "../services/index.service";
+import jwt from "jsonwebtoken";
 
 // require('crypto').randomBytes(64).toString('hex')
 
@@ -17,8 +17,9 @@ class AuthController {
     generateToken(first_name: string, last_name: string, password: string, email: string): string {
         // Generate and return the encoded token based on the user data
         const payload = { first_name, last_name, password, email };
-        const secretKey = 'b286e0f96f6759ec8fb9906b235f4c13dfb23c0505574fd6b82abad035f007fa5dac96ac9038beea3abb9bad20a40bd5a7e891e7502539c04dea853e79d10a9f'; // Replace with your own secret key
-        const expiresIn = '1h'; // Set the expiration time for the token
+        const secretKey =
+            "b286e0f96f6759ec8fb9906b235f4c13dfb23c0505574fd6b82abad035f007fa5dac96ac9038beea3abb9bad20a40bd5a7e891e7502539c04dea853e79d10a9f"; // Replace with your own secret key
+        const expiresIn = "1h"; // Set the expiration time for the token
 
         const token = jwt.sign(payload, secretKey, { expiresIn });
 
@@ -26,14 +27,22 @@ class AuthController {
     }
 
     async register(req: Request, res: Response): Promise<Response> {
-        const { email, password, first_name, last_name } = req.body;
+        const { email, password, first_name, last_name, confirmPassword, ...registrationData } = req.body;
 
         // Remove the "token" field from the request payload
-        const { token, ...registrationData } = req.body;
+        // const { token, ...registrationData } = req.body;
 
-        const errorValidate: ValidationError | undefined = registrationSchema.validate(
-            registrationData
-        ).error;
+        // Construct the data object with all required fields
+        const data = {
+            email,
+            password,
+            first_name,
+            last_name,
+            confirmPassword,
+            ...registrationData,
+        };
+
+        const errorValidate: ValidationError | undefined = registrationSchema.validate(data).error;
 
         if (errorValidate) {
             return res.status(400).json({

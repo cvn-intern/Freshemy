@@ -12,6 +12,7 @@ export type Register = {
     confirmPassword: string
 };
 
+
 export type Token = {
     accessToken: string;
     refreshToken: string;

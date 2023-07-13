@@ -69,6 +69,11 @@ async function registrationUser(userData: {
     first_name: string;
     last_name: string;
 }) {
+    // Check if the email is empty
+    if (!userData.email) {
+        throw new Error("Email is required");
+    }
+
     // Generate a hashed password
     const hashedPassword = await bcrypt.hash(userData.password, 10);
 
@@ -113,5 +118,3 @@ export function generateNewAccessToken(userId: number): string {
 
     return newAccessToken;
 }
-
-
