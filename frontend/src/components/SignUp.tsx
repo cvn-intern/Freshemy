@@ -1,4 +1,4 @@
-import React, { FC} from "react";
+import React, { FC, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -14,7 +14,7 @@ import Header from "./Header";
 const SignUp: FC = () => {
     const isLogin = useAppSelector((state) => state.authSlice.isLogin);
 
-    // const [isRegistered, setIsRegistered] = useState(false);
+    const [isRegistered, setIsRegistered] = useState(false);
 
     const dispatch = useAppDispatch();
 
@@ -46,7 +46,7 @@ const SignUp: FC = () => {
     const handleOnSubmit = async (values: Register) => {
         try {
             await (dispatch as AppDispatch)(register(values));
-            // setIsRegistered(true);
+            setIsRegistered(true);
         } catch (error) {
             console.log(error);
         }
@@ -61,11 +61,11 @@ const SignUp: FC = () => {
                     <div className="w-2/3 bg-[#F7F1DD]">
                         <h1 className="text-center text-4xl text-black-500 font-bold mb-8">SIGN UP</h1>
 
-                        {/* {isRegistered && (
+                        {isRegistered && (
                             <div className="bg-green-200 text-green-800 p-4 mb-4">
                                 Registration successful! You can now log in.
                             </div>
-                        )} */}
+                        )}
 
                         <Formik
                             initialValues={initialValues}
