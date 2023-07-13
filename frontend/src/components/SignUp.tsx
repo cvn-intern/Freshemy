@@ -8,7 +8,7 @@ import { Register } from "../types/auth";
 import { AppDispatch } from "../redux/store";
 import { useAppDispatch } from "../hooks/hooks";
 
-// import Footer from "./Footer";
+import Footer from "./Footer";
 import Header from "./Header";
 
 const SignUp: FC = () => {
@@ -193,7 +193,7 @@ const SignUp: FC = () => {
                 </div>
             </div>
 
-            {/* <Footer /> */}
+            <Footer />
         </>
     );
 };

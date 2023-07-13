@@ -10,5 +10,6 @@ export interface RegisterRequest extends RequestHasLogin {
         password: string;
         first_name: string;
         last_name: string;
+        token: string
     };
 }

@@ -5,6 +5,7 @@ type Registration = {
     password: string
     first_name: string;
     last_name: string;
+    token: string
 }
 
 export const registrationSchema: ObjectSchema<Registration> = Joi.object({

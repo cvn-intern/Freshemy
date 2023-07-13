@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 
 const axiosPublic = axios.create({
-    baseURL: "http://localhost:3000/api",
+    baseURL: "http://localhost:5000/api",
 });
 
 axiosPublic.interceptors.request.use(
@@ -44,7 +44,7 @@ const apiCaller = async (method: string, path: string, data?: any): Promise<Axio
         method,
         url: path,
         data,
-        baseURL: "http://localhost:3000/api", // Replace with your API base URL
+        baseURL: "http://localhost:5000/api", // Replace with your API base URL
         headers: {
             Authorization: "Bearer <access-token>", // Example: Adding an Authorization header
             "Content-Type": "application/json", // Example: Specifying the content type

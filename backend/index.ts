@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
+
 //////////////////////////////////////////////////////////////////////////
 
 import cookieParser from "cookie-parser";
@@ -9,14 +10,25 @@ import configs from "./src/configs";
 import cors from "cors";
 
 import bodyParser from "body-parser";
+// import { refreshTokenMiddleware } from "src/middlewares/isRegistered";
 
 //////////////////////////////////////////////////////////////////////////
-
 
 // const app: Application = express();
 const prisma = new PrismaClient();
 const app = express();
 
+declare namespace Express {
+    interface Request {
+        accessToken?: string;
+    }
+}
+
+// Sử dụng middleware cookie-parser để xử lý cookie
+app.use(cookieParser());
+
+// Add the refresh token middleware before your other routes
+// app.use(refreshTokenMiddleware);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
