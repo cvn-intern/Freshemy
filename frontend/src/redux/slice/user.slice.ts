@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-// import { changePassword as changePasswordAPI } from "../../apis/user";
 import { ChangePassword as ChangePasswordType } from "../../types/user";
 import { Response } from "../../types/response";
 import UserApis from "../../apis/user";
@@ -20,7 +19,6 @@ export const changePassword = createAsyncThunk<Response<null>, ChangePasswordTyp
     "auth/verifyEmail",
     async (body, ThunkAPI) => {
         try {
-            // const response = await changePasswordAPI(body);
             const response = await UserApis.changePassword(body);
             return response.data as Response<null>;
         } catch (error: any) {

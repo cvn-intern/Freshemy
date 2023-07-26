@@ -4,6 +4,7 @@ import authSlice from "./slice/auth.slice";
 import sectionSlice from "./slice/section.slice";
 import userSlice from "./slice/user.slice";
 import courseSlice from "./slice/course.slice";
+import lessonSlice from "./slice/lesson.slice";
 
 const store: ToolkitStore = configureStore({
     reducer: {
@@ -11,6 +12,7 @@ const store: ToolkitStore = configureStore({
         userSlice: userSlice,
         sectionSlice: sectionSlice,
         courseSlice: courseSlice,
+        lessonSlice: lessonSlice,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

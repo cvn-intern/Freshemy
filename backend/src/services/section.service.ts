@@ -16,7 +16,6 @@ import jwt, { JsonWebTokenError, TokenExpiredError, NotBeforeError } from "jsonw
 const getAllSectionByCourseId = async (req: Request): Promise<ResponseBase> => {
     try {
         const { course_id } = req.params;
-        console.log(course_id)
         const isFoundSection = await configs.db.section.findMany({
             where: {
                 course_id: parseInt(course_id),
@@ -36,7 +35,6 @@ const getAllSectionByCourseId = async (req: Request): Promise<ResponseBase> => {
         if (isFoundSection) return new ResponseSuccess(200, MESSAGE_SUCCESS_GET_DATA, true, isFoundSection);
         return new ResponseError(400, MESSAGE_ERROR_MISSING_REQUEST_BODY, false);
     } catch (error: any) {
-        console.log(error)
         if (error instanceof PrismaClientKnownRequestError) {
             return new ResponseError(400, error.toString(), false);
         }

@@ -11,11 +11,14 @@ import { Course } from "../../types/course";
 
 import toast from "react-hot-toast";
 import Spin from "../../components/Spin";
+import DeleteModal from "../../components/DeleteModal";
 
 const MyCourses: React.FC = () => {
     const [userInput, setUserInput] = useState<string>("");
     const [keyword, setKeyword] = useState<string>("");
     const [pageIndex, setPageIndex] = useState<number>(1);
+    const [isOpenDeleteModal, setIsOpenDeleteModal] = useState<boolean>(false);
+    const [idItem, setIdItem] = useState<number>(-1);
     const inputRef = React.useRef<HTMLInputElement>(null);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
@@ -53,16 +56,26 @@ const MyCourses: React.FC = () => {
         navigate(`/my-courses/edit/${id}`);
     };
 
-    const handleDeleteCourse = (courseId: number) => {
+    const handleDeleteCourse = () => {
         //@ts-ignore
-        dispatch(courseActions.deleteCourse(courseId)).then((response) => {
+        dispatch(courseActions.deleteCourse(idItem)).then((response) => {
             if (response.payload.status_code === 200) {
-                dispatch(courseActions.setDeleteCourse(courseId));
+                dispatch(courseActions.setDeleteCourse(idItem));
                 toast.success(response.payload.message);
             } else {
                 toast.error(response.payload.message);
             }
         });
+        setIsOpenDeleteModal(false);
+    };
+
+    const handleCancelDeleteModal = () => {
+        setIsOpenDeleteModal(!isOpenDeleteModal);
+    };
+
+    const handleDiplayDeleteModal = (courseId: number) => {
+        setIdItem(courseId);
+        setIsOpenDeleteModal(true);
     };
 
     return (
@@ -106,7 +119,7 @@ const MyCourses: React.FC = () => {
                                 title={course.title}
                                 summary={course.summary}
                                 author={course.author}
-                                handleDeleteCourse={handleDeleteCourse}
+                                handleDeleteCourse={handleDiplayDeleteModal}
                                 handleEditCourse={handleEditCourse}
                             />
                         );
@@ -120,6 +133,10 @@ const MyCourses: React.FC = () => {
                     </div>
                 </div>
             </div>
+            {/* POPUP DELETE */}
+            {isOpenDeleteModal && (
+                <DeleteModal handleDelete={handleDeleteCourse} handleCancel={handleCancelDeleteModal} />
+            )}
         </>
     );
 };

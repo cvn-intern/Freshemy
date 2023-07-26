@@ -28,6 +28,7 @@ const customStyles = {
         position: "static",
         transform: "none",
         borderRadius: "0.25rem",
+        padding: "10px",
         boxShadow: "",
     }),
     option: (styles: any) => ({
@@ -35,7 +36,6 @@ const customStyles = {
     }),
     menu: (styles: any) => ({
         ...styles,
-        backgroundColor: "white",
         borderRadius: "0.25rem",
         boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.1)",
     }),
@@ -402,7 +402,7 @@ const EditCourse: React.FC = () => {
                                                     formik.errors.categories && formik.touched.categories
                                                         ? "border-error"
                                                         : ""
-                                                } border-[1px]`}
+                                                }`}
                                             >
                                                 <Field
                                                     name="categories"

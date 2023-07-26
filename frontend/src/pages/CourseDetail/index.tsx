@@ -31,11 +31,13 @@ const CourseDetail: React.FC = () => {
     const handleDeleteCourse = () => {
         //@ts-ignore
         dispatch(courseActions.deleteCourse(idItem)).then((response) => {
-            if (response.payload.status_code === 200) {
-                toast.success(response.payload.message);
-                navigate("/my-courses");
-            } else {
-                toast.error(response.payload.message);
+            if (response.payload) {
+                if (response.payload.status_code === 200) {
+                    toast.success(response.payload.message);
+                    navigate("/my-courses");
+                } else {
+                    toast.error(response.payload.message);
+                }
             }
         });
         setIsOpenDeleteModal(!isOpenDeleteModal);
@@ -48,7 +50,7 @@ const CourseDetail: React.FC = () => {
     useEffect(() => {
         // @ts-ignore
         dispatch(courseActions.getCourseDetail(slug)).then((response) => {
-            if (response.payload.status_code !== 200) {
+            if (response.payload && response.payload.status_code !== 200) {
                 setIsNotFound(true);
             }
         });

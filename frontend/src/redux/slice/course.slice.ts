@@ -1,19 +1,6 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Response } from "../../types/response";
 
-/**
- * import {
-    createCourse as createCourseAPI,
-    getCategories as getCategoriesAPI,
-    getMyCourses as getMyCoursesAPI,
-    deleteCourse as deleteCourseAPI,
-    getCourseDetail as getCourseDetailAPI,
-    getCourseDetailById as getCourseDetailByIdAPI,
-    changeThumbnail as changeThumbnailAPI,
-    changeInformation as changeInformationAPI,
-} from "../../apis/course";
- */
-
 import {
     NewCourse,
     Category,
@@ -25,6 +12,7 @@ import {
     ChangeThumbnail as ChangeThumbnailType,
     CourseChangeInformation as CourseChangeInformationType,
 } from "../../types/course";
+
 import CourseApis from "../../apis/course";
 
 type CourseSlice = {

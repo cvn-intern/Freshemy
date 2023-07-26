@@ -2,8 +2,8 @@ import i18n from "../utils/i18next";
 import * as Yup from "yup";
 
 export const loginValidationSchema = Yup.object({
-    email: Yup.string().email().required(i18n.t("errorMessages.emailIsRequired")), 
-    password: Yup.string().required(i18n.t("errorMessages.passwordIsRequired")), 
+    email: Yup.string().email().required(i18n.t("errorMessages.emailIsRequired")),
+    password: Yup.string().required(i18n.t("errorMessages.passwordIsRequired")),
 });
 
 export const forgotPasswordValidationSchema = Yup.object({

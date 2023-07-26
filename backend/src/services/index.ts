@@ -6,7 +6,6 @@ import CourseService from "./course.service";
 import LessonService from "./lesson.service";
 import FileStorageService from "./filestorage.service";
 
-
 const services = {
     AuthService,
     UserService,

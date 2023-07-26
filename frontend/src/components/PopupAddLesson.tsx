@@ -15,7 +15,7 @@ type AddLessonModalProps = {
 };
 
 const PopupAddLesson: React.FC<AddLessonModalProps> = (props) => {
-    const isLoading = useAppSelector((state) => state.isLoading) ?? false;
+    const isLoading = useAppSelector((state) => state.lessonSlice.isLoading) ?? false;
     const [error, setError] = useState("");
     const [video, setVideo] = useState<File | null>(null);
     const dispatch = useAppDispatch();
@@ -50,12 +50,15 @@ const PopupAddLesson: React.FC<AddLessonModalProps> = (props) => {
         formData.append("video", video as File);
         //@ts-ignore
         dispatch(lessonActions.addLesson(formData))
-            .then((response: any) => {
-                if (response.payload.status_code !== 200) {
-                    toast.error(response.payload.message);
-                } else {
-                    toast.success(response.payload.message);
-                    props.handleCancel();
+            //@ts-ignore
+            .then((response) => {
+                if (response.payload) {
+                    if (response.payload.status_code !== 200) {
+                        toast.error(response.payload.message);
+                    } else {
+                        toast.success(response.payload.message);
+                        props.handleCancel();
+                    }
                 }
             })
             .catch((error: any) => {

@@ -1,18 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { User } from "../../types/user";
 
-/**
- * import AuthApis, {
-    register as registerAPI,
-    login as loginAPI,
-    getMe as getMeAPI,
-    forgotPassword as forgotPasswordAPI,
-    resetPassword as resetPasswordAPI,
-    refreshToken as refreshTokenAPI,
-    verifyEmail as verifyEmailAPI,
-} from "../../apis/auth";
- */
-
 import { Login as LoginType, Register as RegisterType, Token as TokenType } from "../../types/auth";
 import { ForgotPassword as ForgotPasswordType } from "../../types/auth";
 import { ResetPassword as ResetPasswordType } from "../../types/auth";
@@ -33,10 +21,8 @@ export const login = createAsyncThunk<Response<TokenType>, LoginType, { rejectVa
     "auth/login",
     async (body, ThunkAPI) => {
         try {
-            // const response = await loginAPI(body);
-            const response = await AuthApis.login(body)
+            const response = await AuthApis.login(body);
             return response.data as Response<TokenType>;
-
         } catch (error: any) {
             return ThunkAPI.rejectWithValue(error.data as Response<null>);
         }
@@ -47,7 +33,6 @@ export const register = createAsyncThunk<Response<null>, RegisterType, { rejectV
     "auth/register",
     async (body, ThunkAPI) => {
         try {
-            // const response = await registerAPI(body);
             const response = await AuthApis.register(body);
             return response.data as Response<null>;
         } catch (error: any) {
@@ -60,7 +45,6 @@ export const forgotPassword = createAsyncThunk<Response<null>, ForgotPasswordTyp
     "auth/forgotPassword",
     async (body, ThunkAPI) => {
         try {
-            // const response = await forgotPasswordAPI(body.email);
             const response = await AuthApis.forgotPassword(body.email);
             return response.data as Response<null>;
         } catch (error: any) {
@@ -73,7 +57,6 @@ export const resetPassword = createAsyncThunk<Response<null>, ResetPasswordType,
     "auth/resetPassword",
     async (body, ThunkAPI) => {
         try {
-            // const response = await resetPasswordAPI(body);
             const response = await AuthApis.resetPassword(body);
             return response.data as Response<null>;
         } catch (error: any) {
@@ -86,7 +69,6 @@ export const verifyEmail = createAsyncThunk<Response<null>, string, { rejectValu
     "auth/verifyEmail",
     async (body, ThunkAPI) => {
         try {
-            // const response = await verifyEmailAPI(body);
             const response = await AuthApis.verifyEmail(body);
             return response.data as Response<null>;
         } catch (error: any) {
@@ -220,7 +202,6 @@ export default authSlice.reducer;
 
 export const getMe = () => async (dispatch: any) => {
     try {
-        // const response = await getMeAPI();
         const response = await AuthApis.getMe();
 
         if (response) {
@@ -232,12 +213,11 @@ export const getMe = () => async (dispatch: any) => {
                 window.location.href = "/login";
             }
         }
-    } catch (error: any) { }
+    } catch (error: any) {}
 };
 
 export const refreshToken = async () => {
     try {
-        // const response = await refreshTokenAPI();
         const response = await AuthApis.refreshToken();
 
         if (response) {

@@ -1,17 +1,18 @@
 import apiCaller from "../api-config/apiCaller";
 import { AddLesson as AddLessonType } from "../types/lesson";
-import { HTTP_POST } from "../utils/contants";
+
+import i18n from "../utils/i18next";
 
 const addLesson = async (values: AddLessonType) => {
     const path = "/lessons";
 
-    const response = await apiCaller(HTTP_POST, path, values);
+    const response = await apiCaller(i18n.t("HTTP_CALL.HTTP_POST"), path, values);
 
     return response;
 };
 
 const LessonApis = {
-    addLesson
+    addLesson,
 };
 
 export default LessonApis;

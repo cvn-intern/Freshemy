@@ -28,11 +28,14 @@ const ChangePassword: React.FC = () => {
     const handleOnSubmit = (values: ChangePasswordType) => {
         //@ts-ignore
         dispatch(userActions.changePassword(values))
-            .then((response: any) => {
-                if (response.payload.status_code !== 200) {
-                    toast.error(response.payload.message);
-                } else {
-                    toast.success(response.payload.message);
+            //@ts-ignore
+            .then((response) => {
+                if (response.payload) {
+                    if (response.payload.status_code !== 200) {
+                        toast.error(response.payload.message);
+                    } else {
+                        toast.success(response.payload.message);
+                    }
                 }
             })
             .catch((error: any) => {

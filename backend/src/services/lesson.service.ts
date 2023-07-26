@@ -100,7 +100,6 @@ const updateLesson = async (req: Request): Promise<ResponseBase> => {
         const { title } = req.body;
         const lesson_id = +id;
         if (req.file) {
-            console.log(req.file, id, title, lesson_id);
             const isFoundLesson = await configs.db.lesson.findUnique({
                 where: {
                     id: lesson_id,
@@ -155,7 +154,6 @@ const updateLesson = async (req: Request): Promise<ResponseBase> => {
         return new ResponseError(400, MESSAGE_ERROR_MISSING_REQUEST_BODY, false);
     } catch (error: any) {
         fs.unlinkSync(req.file?.path as string);
-        console.log(error);
         if (error instanceof PrismaClientKnownRequestError) {
             return new ResponseError(400, error.toString(), false);
         }

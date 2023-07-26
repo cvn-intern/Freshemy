@@ -37,9 +37,9 @@ export type Author = {
     id: number;
 };
 export type Lesson = {
+    id: number;
     title: string;
     url_video: string;
-    id: number;
 };
 export type Section = {
     title: string;
@@ -48,7 +48,7 @@ export type Section = {
     lessons: Lesson[];
 };
 
-export type Top10Courses = {
+export type OutstandingCourse = {
     id: number;
     thumbnail: string;
     title: string;

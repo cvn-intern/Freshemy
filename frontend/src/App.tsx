@@ -16,7 +16,7 @@ import Verify from "./pages/Verify";
 import NotFound from "./pages/NotFound";
 import MyCourses from "./pages/MyCourse";
 import Cookies from "js-cookie";
-import EditCourse from "./pages/EditCourse/EditCourse";
+import EditCourse from "./pages/EditCourse";
 import CourseDetail from "./pages/CourseDetail";
 import WatchVideo from "./pages/WatchVideo";
 import MyProfile from "./pages/MyProfile";

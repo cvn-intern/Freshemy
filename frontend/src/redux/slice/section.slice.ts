@@ -1,14 +1,5 @@
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-/**
- * import {
-    addSection as addSectionAPI,
-    deleteSection as deleteSectionAPI,
-    editSection as editSectionAPI,
-    getSectionByCourseId as getSectionByCourseIdAPI
-} from "../../apis/section";
- */
-
 import { EditSection as EditSectionType, Section as SectionType } from "../../types/section";
 import { Response } from "../../types/response";
 import SectionApis from "../../apis/section";
@@ -25,7 +16,6 @@ export const addSection = createAsyncThunk<Response<null>, SectionType, { reject
     "section/addSection",
     async (body, ThunkAPI) => {
         try {
-            // const response = await addSectionAPI(body);
             const response = await SectionApis.addSection(body);
             return response.data as Response<null>;
         } catch (error: any) {
@@ -38,7 +28,6 @@ export const editSection = createAsyncThunk<Response<null>, EditSectionType, { r
     "section/editSection",
     async (body, ThunkAPI) => {
         try {
-            // const response = await editSectionAPI(body);
             const response = await SectionApis.editSection(body);
             return response.data as Response<null>;
         } catch (error: any) {
@@ -51,7 +40,6 @@ export const deleteSection = createAsyncThunk<Response<null>, number, { rejectVa
     "section/deleteSection",
     async (body, ThunkAPI) => {
         try {
-            // const response = await deleteSectionAPI(body);
             const response = await SectionApis.deleteSection(body);
             return response.data as Response<null>;
         } catch (error: any) {
@@ -60,12 +48,10 @@ export const deleteSection = createAsyncThunk<Response<null>, number, { rejectVa
     }
 );
 
-
 export const getSectionByCourseId = createAsyncThunk<Response<SectionType[]>, number, { rejectValue: Response<null> }>(
     "section/getSectionByCourseId",
     async (body, ThunkAPI) => {
         try {
-            // const response = await getSectionByCourseIdAPI(body);
             const response = await SectionApis.getSectionByCourseId(body);
             return response.data as Response<SectionType[]>;
         } catch (error: any) {
@@ -96,7 +82,7 @@ export const sectionSlice = createSlice({
                 }
                 return section;
             });
-        }
+        },
     },
     extraReducers: (builder) => {
         // add section
@@ -107,7 +93,7 @@ export const sectionSlice = createSlice({
         });
 
         builder.addCase(addSection.fulfilled, (state, action) => {
-            state.message = action.payload.message
+            state.message = action.payload.message;
             state.isLoading = false;
         });
 
@@ -148,7 +134,6 @@ export const sectionSlice = createSlice({
             state.error = action.error as string;
         });
 
-
         // delete section
         builder.addCase(getSectionByCourseId.pending, (state) => {
             state.message = "";
@@ -157,7 +142,7 @@ export const sectionSlice = createSlice({
         });
 
         builder.addCase(getSectionByCourseId.fulfilled, (state, action) => {
-            state.sectionList = action.payload.data as SectionType[]
+            state.sectionList = action.payload.data as SectionType[];
             state.isLoading = false;
         });
 

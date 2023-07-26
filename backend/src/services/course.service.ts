@@ -2,7 +2,7 @@ import { Course, CourseInfo, RequestHasLogin, ResponseData } from "../types/requ
 import { Request } from "express";
 import { ResponseBase, ResponseError, ResponseSuccess } from "../commons/response";
 import { db } from "../configs/db.config";
-import { CourseDetail, Lesson, Section, Category, CourseEdit, Top10Courses } from "../types/courseDetail";
+import { CourseDetail, Lesson, Section, Category, CourseEdit, OutstandingCourse } from "../types/courseDetail";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import jwt, { JsonWebTokenError, TokenExpiredError, NotBeforeError } from "jsonwebtoken";
 import cloudinary from "../configs/cloudinary.config";
@@ -14,10 +14,6 @@ import {
     MESSAGE_SUCCESS_REGISTER_COURSE,
     MESSAGE_ERROR_BAD_REQUEST,
     MESSAGE_SUCCESS_UN_REGISTER_COURSE,
-    MESSAGE_ERROR_LOGIN_FAILED,
-    MESSAGE_ERROR_SEND_EMAIL,
-    MESSAGE_ERROR_LOGIN_UNVERIFIED,
-    MESSAGE_SUCCESS_LOGIN,
     MESSAGE_ERROR_INTERNAL_SERVER,
     MESSAGE_ERROR_MISSING_REQUEST_BODY,
     MESSAGE_SUCCESS_COURSE_CREATED,
@@ -79,18 +75,10 @@ const getCourseDetail = async (req: Request): Promise<ResponseBase> => {
                 return new ResponseError(404, MESSAGE_ERROR_GET_DATA, false);
             } else {
                 const categories: Category[] = [];
-                const sections: Section[] = [];
                 course.courses_categories.forEach((category) => {
                     categories.push(category.category);
                 });
-                course.sections.forEach((section) => {
-                    const lessons: Lesson[] = [];
-                    section.lessons.forEach((lesson) => {
-                        lessons.push(lesson);
-                    });
-                    section.lessons = lessons;
-                    sections.push(section);
-                });
+                const sections: Section[] = course.sections;
                 const courseData: CourseDetail = {
                     id: course.id,
                     slug: course.slug,
@@ -373,8 +361,6 @@ const editThumbnail = async (req: RequestHasLogin): Promise<ResponseBase> => {
 const createCourse = async (req: RequestHasLogin): Promise<ResponseBase> => {
     const { title, slug, description, summary, categories, status } = req.body;
 
-    // Vì formData gửi dữ liệu bằng string nên ở đây phải convert nó về
-
     const statusConvert = status === "0" ? false : true;
 
     const user_id = req.user_id;
@@ -586,10 +572,10 @@ const getTop10Courses = async (req: Request): Promise<ResponseBase> => {
             if (courseItem !== null) courseList.push(courseItem);
         }
 
-        const result: Top10Courses[] = [];
+        const result: OutstandingCourse[] = [];
 
         courseList.map((course) => {
-            const data: Top10Courses = {
+            const data: OutstandingCourse = {
                 id: course.id,
                 thumbnail: course.thumbnail,
                 title: course.title,
