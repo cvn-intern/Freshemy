@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-import { Formik, ErrorMessage, Field } from "formik";
+import { Formik, ErrorMessage, Field, FormikProps } from "formik";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { setMessageEmpty } from "../../redux/slice/auth.slice";
 import { NewCourse as CreateCourseType, Category as CategoryType } from "../../types/course";
@@ -12,7 +12,7 @@ import Navbar from "../../components/Navbar";
 import toast from "react-hot-toast";
 import CustomeSelect from "../../components/Select";
 
-type categoriesOptions = {
+type Options = {
     value: number;
     label: string;
 };
@@ -25,7 +25,7 @@ const CreateCourse: FC = () => {
     const formikRef = useRef(null);
     const imageRef = useRef<HTMLImageElement>(null);
     const navigate = useNavigate();
-    const categoriesOptions: categoriesOptions[] = [];
+    const categoriesOptions: Options[] = [];
     const statusOptions = [
         {
             value: 1,
@@ -38,7 +38,7 @@ const CreateCourse: FC = () => {
     ];
     useEffect(() => {
         categories.forEach((category: CategoryType) => {
-            const temp: categoriesOptions = {
+            const temp: Options = {
                 value: category.id,
                 label: category.title,
             };
@@ -72,9 +72,9 @@ const CreateCourse: FC = () => {
         formData.append("thumbnail", thumbnail as File);
         formData.append("summary", values.summary);
         formData.append("status", values.status.toString());
-        formData.append("upload_preset", "Freshemy");
-        values.categories.forEach((item: any) => {
-            formData.append("categories[]", item.value.toString());
+        // formData.append("upload_preset", "Freshemy");
+        values.categories.forEach((item: number) => {
+            formData.append("categories[]", item.toString());
         });
         // @ts-ignore
         dispatch(courseActions.createCourses(formData)).then((response) => {
@@ -87,12 +87,12 @@ const CreateCourse: FC = () => {
         });
     };
 
-    const handleChangeCategories = (event: any, formik: any) => {
-        formik.setFieldValue("categories", event);
+    const handleChangeCategories = (event: Options[], formik: FormikProps<CreateCourseType>) => {
+        formik.setFieldValue("categories", [...formik.values.categories, event[event.length - 1].value]);
     };
 
-    const handleChangeStatus = (event: any, formik: any) => {
-        formik.setFieldValue("status", event.value);
+    const handleChangeStatus = (event: Options[], formik: FormikProps<CreateCourseType>) => {
+        formik.setFieldValue("status", event);
     };
 
     const onChangeInputFile = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,7 +127,7 @@ const CreateCourse: FC = () => {
                             onSubmit={handleOnSubmit}
                             innerRef={formikRef}
                         >
-                            {(formik) => (
+                            {(formik: FormikProps<CreateCourseType>) => (
                                 <form onSubmit={formik.handleSubmit} className="p-4">
                                     <div className="flex">
                                         <div className="flex rounded-lg items-start">
@@ -204,7 +204,9 @@ const CreateCourse: FC = () => {
                                                     <Field
                                                         name="categories"
                                                         component={CustomeSelect}
-                                                        handleOnchange={(e: any) => handleChangeCategories(e, formik)}
+                                                        handleOnchange={(e: Options[]) =>
+                                                            handleChangeCategories(e, formik)
+                                                        }
                                                         options={categoriesOptions}
                                                         isMulti={true}
                                                         defautlValues={""}
@@ -227,7 +229,7 @@ const CreateCourse: FC = () => {
                                                     className="custom-select"
                                                     name="status"
                                                     component={CustomeSelect}
-                                                    handleOnchange={(e: any) => handleChangeStatus(e, formik)}
+                                                    handleOnchange={(e: Options[]) => handleChangeStatus(e, formik)}
                                                     options={statusOptions}
                                                     isMulti={false}
                                                     placeholder="Uncompleted"

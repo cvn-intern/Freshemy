@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Navbar from "../../components/Navbar";
-import { Formik, ErrorMessage, Field } from "formik";
+import { Formik, ErrorMessage, Field, FormikProps } from "formik";
 import { editCourseValidationSchema } from "../../validations/course";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { sectionActions } from "../../redux/slice";
@@ -84,7 +84,7 @@ const EditCourse: React.FC = () => {
     };
     const courseStatus: string = courseChangeDetail.status ? "Completed" : "Uncomplete";
     const dispatch = useAppDispatch();
-    const statusOptions = [
+    const statusOptions: Options[] = [
         {
             value: 0,
             label: "Completed",
@@ -107,7 +107,7 @@ const EditCourse: React.FC = () => {
     useEffect(() => {
         let createTemp = [...createCategoriesSelector];
         let cateTemp = [...categoriesSelector];
-        const cateOptionsTemp: any = [];
+        const cateOptionsTemp: Options[] = [];
         createTemp.forEach((category: any) => {
             const index = cateTemp.findIndex((item: any) => item.id === category.id);
             if (index >= 0) {
@@ -190,7 +190,7 @@ const EditCourse: React.FC = () => {
         setItemTitle(title);
         setIsDisplayEditModal(!isDisplayEditModal);
     };
-    const handleChangeCategories = (event: any, formik: any) => {
+    const handleChangeCategories = (event: Options[], formik: FormikProps<CourseChangeInformationType>) => {
         let createTemp = JSON.parse(JSON.stringify(event));
         let cateTemp = JSON.parse(JSON.stringify(categoriesSelector));
         const cateOptionsTemp: any = [];
@@ -239,7 +239,7 @@ const EditCourse: React.FC = () => {
             }
         }
     };
-    const handleChangeStatus = (event: any, formik: any) => {
+    const handleChangeStatus = (event: Options[], formik: FormikProps<CourseChangeInformationType>) => {
         formik.setFieldValue("status", event);
     };
     const handleChangeThumbnail = () => {
