@@ -371,7 +371,7 @@ const editThumbnail = async (req: RequestHasLogin): Promise<ResponseBase> => {
 };
 
 const createCourse = async (req: RequestHasLogin): Promise<ResponseBase> => {
-    const { title, slug, description, summary, categories, status, upload_preset } = req.body;
+    const { title, slug, description, summary, categories, status } = req.body;
 
     // Vì formData gửi dữ liệu bằng string nên ở đây phải convert nó về
 
