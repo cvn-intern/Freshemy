@@ -32,7 +32,6 @@ const Accordion: React.FC<AccordionType> = (props) => {
     const dispatch = useAppDispatch();
     const courseDetail: CourseDetailType = useAppSelector((state) => state.courseSlice.courseDetail) ?? {};
 
-    console.log(props.section.lessons)
 
     return (
         <>

@@ -52,8 +52,6 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ isLogin }) => {
         return;
     };
 
-    console.log(courseDetail)
-
     const handleDeleteCourse = () => {
         //@ts-ignore
         dispatch(courseActions.deleteCourse(idItem)).then((response) => {
