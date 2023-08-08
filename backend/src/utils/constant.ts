@@ -124,6 +124,7 @@ export const errorMessages = {
     ratingScoreMustBeAnInt: "Rating score must be an integer",
     ratingScoreMinError: "Rating score must be in 1-5",
     ratingScoareMaxError: "Rating score must be in 1-5",
+    ratingSuccess:"Rating successfully",
 
     //Subscribe course
     authorSubscribeError: "You can't subscribe your own course",
